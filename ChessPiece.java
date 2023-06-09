@@ -26,7 +26,7 @@ public class ChessPiece {
 
         };
 
-        public void setType(String type)
+        public void setType(ChessPieceType pieceType)
         {
                 if()
                 this.type = type;
