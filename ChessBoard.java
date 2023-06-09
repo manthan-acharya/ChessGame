@@ -38,9 +38,8 @@ public class ChessBoard {
         for(ChessPiece[] boardRow : board){
             for(ChessPiece peice : boardRow)
                 {
-                    //if (piece.getLocation() == {row, col}
-                    //    return true;
-                    //
+                    if (piece.getLocation() == {row, col}
+                        return true;
                 }
         }
         return false;
