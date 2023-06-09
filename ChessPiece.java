@@ -32,7 +32,9 @@ public class ChessPiece {
                 this.type = type;
         }
 
-
+        public int[][] getLocation(){
+            return location;
+        }
 
 
 }
