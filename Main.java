@@ -1,5 +1,4 @@
-import java.io.Console;
-public class main
+public class Main
 {
     public static void main(String[] args) {
         //-------------------- used to generate presets --------------------
