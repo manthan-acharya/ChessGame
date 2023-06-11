@@ -1,13 +1,13 @@
-public class ChessPiece {
-
-        //unicode for chess pieces
+public class ChessPiece
+{
+        // unicode enum for chess pieces
         public enum ChessPieceType {
                 KING_WHITE("♔"), QUEEN_WHITE("♕"), ROOK_WHITE("♖"),
                 BISHOP_WHITE("♗"), KNIGHT_WHITE("♘"), PAWN_WHITE("♙"),
                 KING_BLACK("♚"), QUEEN_BLACK("♛"), ROOK_BLACK("♜"),
                 BISHOP_BLACK("♝"), KNIGHT_BLACK("♞"), PAWN_BLACK("♟"), EMPTY("0");
 
-                private String unicode;
+                private final String unicode;
                 ChessPieceType(String unicode) {
                         this.unicode = unicode;
                 }
@@ -29,28 +29,35 @@ public class ChessPiece {
                         }
                         return null;
                 }
-        }
+        } // end ChessPieceType
 
-        private ChessPieceType type;
+        private ChessPieceType type = ChessPieceType.EMPTY;
 
+        /**
+         * Creates a new chess piece of a given type
+         * @param type
+         */
         ChessPiece(ChessPieceType type)
         {
                 this.type = type;
-        };
+        } // end ChessPiece(ChessPieceType)
 
-
+        /**
+         * Sets the type of this piece.
+         * Can be used to upgrade pawns.
+         * @param pieceType (ChessPieceType) the type of piece to set this
+         */
         public void setType(ChessPieceType pieceType)
         {
-                this.type = type;
-        }
+                this.type = pieceType;
+        } // end setType(ChessPieceType)
+
+        /**
+         * Returns the type of the piece
+         * @return (ChessPieceType) the type of this piece
+         */
         public ChessPieceType getType()
         {
-                return type;
-        }
-
-        public int[][] getLocation(){
-            return location;
-        }
-
-
+                return this.type;
+        } // end getType()
 }
