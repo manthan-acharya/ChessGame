@@ -8,11 +8,25 @@ public class ChessBoard
 
    /**
     * Creates a new chess board with the given board
-    * @param board (ChessPiece[][]) - the board to clone this board to
+    * @param copyBoard (ChessPiece[][]) - the board to clone this board to
     */
-   public ChessBoard(ChessPiece[][] board)
+   public ChessBoard(ChessPiece[][] copyBoard)
    {
-      this.board = board.clone();
+       // Create a copy of the board without a memory reference
+      this.board = new ChessPiece[copyBoard.length][copyBoard[0].length];
+
+       // Iterate through each row of the board
+       for(int row = 0; row < copyBoard.length; row++)
+       {
+           // Iterate through each column of the board
+           for(int col = 0; col < copyBoard[row].length; col++)
+           {
+             // Get the piece at the current location
+             ChessPiece piece = copyBoard[row][col];
+
+             this.board[row][col] = new ChessPiece(piece.getType());
+           }
+       }
    } // end setBoard(ChessPiece[][]);
 
     /**
