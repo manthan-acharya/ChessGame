@@ -102,7 +102,7 @@ public class ChessBoard
                 boardString.append(chessPiece).append(" | ");
             }
             // add row divider
-            boardString.append("  ").append(rowDivider()).append("\n");
+            boardString.append("\n  ").append(rowDivider()).append("\n");
         }
         // add column numbering
         boardString.append("    a   b   c   d   e   f   g   h\n");
@@ -123,7 +123,7 @@ public class ChessBoard
 
         // Create a stringBuilder to append to, and add the dashes
         String rowDivider = "-";
-        rowDivider.repeat(numberOfDashes);
+        rowDivider = rowDivider.repeat(numberOfDashes);
         return rowDivider.toString();
     } // end rowDivider();
 
