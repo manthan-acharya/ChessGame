@@ -2,34 +2,50 @@ public class ChessPiece {
 
         //unicode for chess pieces
         public enum ChessPieceType {
-                KING_WHITE("\u2654"), QUEEN_WHITE("\u2655"), ROOK_WHITE("\u2656"),
-                BISHOP_WHITE("\u2657"), KNIGHT_WHITE("\u2658"), PAWN_WHITE("\u2659"),
-                KING_BLACK("\u265A"), QUEEN_BLACK("\u265B"), ROOK_BLACK("\u265C"),
-                BISHOP_BLACK("\u265D"), KNIGHT_BLACK("\u265E"), PAWN_BLACK("\u265F");
+                KING_WHITE("♔"), QUEEN_WHITE("♕"), ROOK_WHITE("♖"),
+                BISHOP_WHITE("♗"), KNIGHT_WHITE("♘"), PAWN_WHITE("♙"),
+                KING_BLACK("♚"), QUEEN_BLACK("♛"), ROOK_BLACK("♜"),
+                BISHOP_BLACK("♝"), KNIGHT_BLACK("♞"), PAWN_BLACK("♟"), EMPTY("0");
 
                 private String unicode;
-
                 ChessPieceType(String unicode) {
                         this.unicode = unicode;
                 }
 
-                public String getUnicode() {
+                public String getUnicode()
+                {
                         return unicode;
+                }
+                public static ChessPieceType enumLookup(String value)
+                {
+                        // Iterate through each enum value
+                        for(ChessPiece.ChessPieceType type : ChessPiece.ChessPieceType.values())
+                        {
+                                // If the unicode value matches the value passed in, return the enum
+                                if(type.getUnicode().equals(value))
+                                {
+                                        return type;
+                                }
+                        }
+                        return null;
                 }
         }
 
-        private String type;
-        private int[][] location;
+        private ChessPieceType type;
 
-        ChessPiece(ChessPieceType type, int[] location)
+        ChessPiece(ChessPieceType type)
         {
-
+                this.type = type;
         };
+
 
         public void setType(ChessPieceType pieceType)
         {
-                if()
                 this.type = type;
+        }
+        public ChessPieceType getType()
+        {
+                return type;
         }
 
         public int[][] getLocation(){
