@@ -1,35 +1,23 @@
+import java.util.Objects;
+
 public class Main
 {
     public static void main(String[] args) {
-        //-------------------- used to generate presets --------------------
-//        char[][] board = {
-//                {'♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'},
-//                {'♟', '♟', '♟', '♟', '♟', '♟', '♟', '♟'},
-//                {'0', '0', '0', '0', '0', '0', '0', '0'},
-//                {'0', '0', '0', '0', '0', '0', '0', '0'},
-//                {'0', '0', '0', '0', '0', '0', '0', '0'},
-//                {'0', '0', '0', '0', '0', '0', '0', '0'},
-//                {'♙', '♙', '♙', '♙', '♙', '♙', '♙', '♙'},
-//                {'♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'}
-//        };
-//        // convert string[][] into chessPiece[][]
-//        ChessPiece[][] chessBoard = new ChessPiece[8][8];
-//        for (int row = 0; row<8; row++) {
-//            for (int col = 0; col<8; col++) {
-//                chessBoard[row][col] = new ChessPiece(ChessPiece.ChessPieceType.enumLookup(Character.toString(board[row][col])));
-//            }
-//        }
-//        // serialize chessPiece[][] into a file
-//        String fileName = "./presets/default.txt";
-//        TextSerialize.serialize(chessBoard, fileName);
 
-        //  load default preset
-        ChessPiece[][] preset = TextSerialize.deserialize("./presets/default.txt");
+        // Load the presets
+        PresetManager.loadPresets();
 
-        // create a new board with the preset
-        ChessBoard board = new ChessBoard(preset);
+        // Print out the names of the presets
+        for(String name : PresetManager.getPresetNames())
+        {
+            System.out.println(name);
+        }
+        System.out.println();
 
-        // print the board
-        System.out.println(board); // implicit toString() call
+        // Create a new chess board with the default preset
+        ChessBoard board = new ChessBoard(PresetManager.getPreset("default"));
+
+        // Print out the board
+        System.out.println(board);
     }
 }
