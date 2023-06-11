@@ -124,10 +124,6 @@ public class ChessBoard
         // Create a stringBuilder to append to, and add the dashes
         String rowDivider = "-";
         rowDivider.repeat(numberOfDashes);
-        for(int i = 0; i < numberOfDashes; i++)
-        {
-            rowDivider.append("-");
-        }
         return rowDivider.toString();
     } // end rowDivider();
 
