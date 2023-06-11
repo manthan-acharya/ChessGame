@@ -2,11 +2,25 @@
 
 public class ChessBoard {
 
-   public ChessPiece[][] board;
+   private ChessPiece[][] board;
+
+
+   public ChessPiece[][] getBoard()
+   {
+      return board;
+   }
+
+   /**
+    * Sets the chess board to a given board
+    * @param board
+    */
+   public void setBoard(ChessPiece[][] board)
+   {
+      this.board = board.clone();
+   }
 
    public ChessBoard() {
       board = new ChessPiece[8][8];
-
    }
    
    public void printBoard() {
