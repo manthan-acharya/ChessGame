@@ -98,7 +98,7 @@ public class TextSerialize
      * @param absolutePath (String) the file to read
      * @return (String) the contents of the file
      */
-    private static String readFile(String absolutePath)
+    public static String readFile(String absolutePath)
     {
         StringBuilder line = new StringBuilder();
         try
