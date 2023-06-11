@@ -35,7 +35,7 @@ public class ChessPiece
 
         /**
          * Creates a new chess piece of a given type
-         * @param type
+         * @param type (ChessPieceType) the type of piece to create
          */
         ChessPiece(ChessPieceType type)
         {

@@ -65,7 +65,7 @@ public class ChessBoard
     public boolean isLocationOccupied(Point location)
     {
         ChessPiece pieceAtLocation = board[location.x][location.y];
-        boolean isPieceEmpty = pieceAtLocation.equals(ChessPiece.ChessPieceType.EMPTY);
+        boolean isPieceEmpty = pieceAtLocation.getType().equals(ChessPiece.ChessPieceType.EMPTY);
         return !isPieceEmpty;
     } // end isLocationOccupied(Point);
 
@@ -77,7 +77,7 @@ public class ChessBoard
     {
         // Create stringBuilder to append to, and add top row divider
         StringBuilder boardString = new StringBuilder();
-        boardString.append("  " + rowDivider() +"\n");
+        boardString.append("  ").append(rowDivider()).append("\n");
 
         // Iterate through each row of the board
         int rowNumber = board.length;
@@ -102,7 +102,7 @@ public class ChessBoard
                 boardString.append(chessPiece).append(" | ");
             }
             // add row divider
-            boardString.append("\n  " + rowDivider() +"\n");
+            boardString.append("  ").append(rowDivider()).append("\n");
         }
         // add column numbering
         boardString.append("    a   b   c   d   e   f   g   h\n");
@@ -122,7 +122,8 @@ public class ChessBoard
         int numberOfDashes = (board.length * 4) + 1;
 
         // Create a stringBuilder to append to, and add the dashes
-        StringBuilder rowDivider = new StringBuilder();
+        String rowDivider = "-";
+        rowDivider.repeat(numberOfDashes);
         for(int i = 0; i < numberOfDashes; i++)
         {
             rowDivider.append("-");
