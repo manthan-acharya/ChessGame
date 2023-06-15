@@ -64,7 +64,7 @@ public class ChessGame
         System.out.println("    - P: Pawn");
         System.out.println("  - The letter is followed by the location of the piece");
         System.out.println("    - The location is represented by a letter then a number (The column and row)");
-        System.out.println("\nAn example of this notation is: kd4 which means the white king is move to d4");
+        System.out.println("\nAn example of this notation is: kd4 which means white king to d4");
     }
 
     /**
