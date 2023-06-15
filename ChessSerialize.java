@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class TextSerialize
+public class ChessSerialize
 {
     /**
      * main method in TextSerialize class.
