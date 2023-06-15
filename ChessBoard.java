@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class ChessBoard
 {
+    // Board[row][col]
    private ChessPiece[][] board;
 
    /**
@@ -46,42 +47,34 @@ public class ChessBoard
       return board;
    } // end getBoard();
 
-   public void printBoard() {
-        System.out.println("---------------------------------");
-        for (int row = 0; row<8; row++) {
-            for (int col = 0; col<=7; col++) {
-                System.out.print("| ");
-                Point location = new Point(row, col);
-                if (isLocationOccupied(location))
-                {
-                    
-                }
-                else if ((row + col) % 2 == 0)
-                {
-                    System.out.print('■');
-                }
-                else
-                {
-                    System.out.print('□');
-                }
-                System.out.print(" ");
-            }
-            System.out.println("|");
-            System.out.println("---------------------------------");
-        }
+    /**
+     * Moves a piece from one location to another
+     * @param pieceLocation (Point) - the location of the piece to move
+     * @param dest (Point) - the location to move the piece to
+     * @implNote will overwrite the piece at the destination, no safety checks are performed
+     */
+    public void movePiece(Point pieceLocation, Point dest)
+    {
+        // Invert the y values of the points
+        pieceLocation = invertPointY(pieceLocation);
+        dest = invertPointY(dest);
+
+        // Move the piece by changing the type of the piece at the destination to the type of the piece at the piece location
+        ChessPiece.ChessPieceType pieceType = board[pieceLocation.y][pieceLocation.x].getType(); // get type before overwriting
+        board[pieceLocation.y][pieceLocation.x].setType(ChessPiece.ChessPieceType.EMPTY); // overwrite piece
+        board[dest.y][dest.x].setType(pieceType); // set destination to type
     }
 
     /**
-     * Determines if a piece is present at a given location
-     * @param location (Point) - the location to check
-     * @return (boolean) - if a piece is at the location
+     * Inverts the y value of a point.
+     * This is used because the board is stored in a 2D array, and the array is indexed from the top left.
+     * @param point (Point) - the point to invert
+     * @return (Point) - the inverted point
      */
-    public boolean isLocationOccupied(Point location)
+    private Point invertPointY(Point point)
     {
-        ChessPiece pieceAtLocation = board[location.x][location.y];
-        boolean isPieceEmpty = pieceAtLocation.getType().equals(ChessPiece.ChessPieceType.EMPTY);
-        return !isPieceEmpty;
-    } // end isLocationOccupied(Point);
+        return new Point(point.x, 7 - point.y);
+    }
 
     /**
      * Converts this board to a string
@@ -125,6 +118,18 @@ public class ChessBoard
     } // end toString();
 
     /**
+     * Determines if a piece is present at a given location
+     * @param location (Point) - the location to check
+     * @return (boolean) - if a piece is at the location
+     */
+    private boolean isLocationOccupied(Point location)
+    {
+        ChessPiece pieceAtLocation = board[location.x][location.y];
+        boolean isPieceEmpty = pieceAtLocation.getType().equals(ChessPiece.ChessPieceType.EMPTY);
+        return !isPieceEmpty;
+    } // end isLocationOccupied(Point);
+
+    /**
      * Returns the row divider for this board.
      * Uses the length of the board to determine the number of dashes to add,
      * account for the column dividers and the spaces between the pieces.
@@ -164,55 +169,4 @@ public class ChessBoard
         }
         return null;
     } // end getPieceLocation(ChessPiece);
-
-
-    /**
-    * returns the possible moves for a pawn
-    * @param point current position of the pawn
-    */
-        
-    private void pawn(Point point, boolean Color) {
-    // Indicates that it is white
-    Point[] possibleMoves = new Point[2]; 
-        if (Color == true) 
-        {
-            // Point[] possibleMoves = {{point.getX(), point.getY() + 1}, {point.getX(), point.getY() + 2}};
-            possibleMoves[0] = new Point((int) point.getX(), (int) point.getY() + 1);
-            possibleMoves[1] = new Point((int) point.getX(), (int) point.getY() + 2);
-        }
-
-        if (Color == false)
-        {
-            // Point[] possibleMoves = {{point.getX(), point.getY() + 1}, {point.getX(), point.getY() - 2}};
-            possibleMoves[0] = new Point((int) point.getX(), (int) point.getY() - 1);
-            possibleMoves[1] = new Point((int) point.getX(), (int) point.getY() - 2);
-        }
-            System.out.println(possibleMoves.toString());             
-
-        }
-
-        private Point[] rook(Point point, boolean Color) {
-
-            Point[] possibleMoves = new Point[]
-            if (Color == true)
-            {
-		    //First I will assumed the Rook is moving along the rows.
-	    	int offset = 1;
-            Point currentRow = (int) point.getY();
-            Point currentCol = (int) point.getX();
-		
-			for(int x = currentRow + offset; x != newRow; x += offset){
-				//Go from currentRow to newRow, and check every space
-				if(board[x][currentCol].getType() == ChessPiece.ChessPieceType.enumLookup("0")){
-
-					System.out.println( x, currentCol);
-					
-				}
-			}
-		}
-	
-    }
-
-
-
 }
