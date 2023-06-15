@@ -37,6 +37,7 @@ public class ChessPiece
         } // end ChessPieceType
 
         private ChessPieceType type = ChessPieceType.EMPTY;
+        private boolean hasbeenMoved = false;
 
         /**
          * Creates a new chess piece of a given type
@@ -55,6 +56,7 @@ public class ChessPiece
         public void setType(ChessPieceType pieceType)
         {
                 this.type = pieceType;
+                hasbeenMoved = true;
         } // end setType(ChessPieceType)
 
         /**
@@ -65,4 +67,13 @@ public class ChessPiece
         {
                 return this.type;
         } // end getType()
+
+        /**
+         * If the piece has been moved since the instantiation of the piece
+         * @return (boolean) if the piece has been moved (determined if setType has been called)
+         */
+        public boolean hasBeenMoved()
+        {
+                return hasbeenMoved;
+        }
 }
