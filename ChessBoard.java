@@ -164,4 +164,55 @@ public class ChessBoard
         }
         return null;
     } // end getPieceLocation(ChessPiece);
+
+
+    /**
+    * returns the possible moves for a pawn
+    * @param point current position of the pawn
+    */
+        
+    private void pawn(Point point, boolean Color) {
+    // Indicates that it is white
+    Point[] possibleMoves = new Point[2]; 
+        if (Color == true) 
+        {
+            // Point[] possibleMoves = {{point.getX(), point.getY() + 1}, {point.getX(), point.getY() + 2}};
+            possibleMoves[0] = new Point((int) point.getX(), (int) point.getY() + 1);
+            possibleMoves[1] = new Point((int) point.getX(), (int) point.getY() + 2);
+        }
+
+        if (Color == false)
+        {
+            // Point[] possibleMoves = {{point.getX(), point.getY() + 1}, {point.getX(), point.getY() - 2}};
+            possibleMoves[0] = new Point((int) point.getX(), (int) point.getY() - 1);
+            possibleMoves[1] = new Point((int) point.getX(), (int) point.getY() - 2);
+        }
+            System.out.println(possibleMoves.toString());             
+
+        }
+
+        private Point[] rook(Point point, boolean Color) {
+
+            Point[] possibleMoves = new Point[]
+            if (Color == true)
+            {
+		    //First I will assumed the Rook is moving along the rows.
+	    	int offset = 1;
+            Point currentRow = (int) point.getY();
+            Point currentCol = (int) point.getX();
+		
+			for(int x = currentRow + offset; x != newRow; x += offset){
+				//Go from currentRow to newRow, and check every space
+				if(board[x][currentCol].getType() == ChessPiece.ChessPieceType.enumLookup("0")){
+
+					System.out.println( x, currentCol);
+					
+				}
+			}
+		}
+	
+    }
+
+
+
 }

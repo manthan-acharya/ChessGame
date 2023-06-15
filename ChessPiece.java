@@ -1,3 +1,8 @@
+
+import java.lang.Object;
+import java.awt.geom.Point2D;
+import java.awt.Point;
+        
 public class ChessPiece
 {
         // unicode enum for chess pieces
