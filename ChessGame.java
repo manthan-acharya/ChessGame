@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Objects;
 import java.util.Scanner;
 
 
@@ -13,37 +14,27 @@ public class ChessGame
 
 
         // select a preset and load the board
-        ChessBoard board = new ChessBoard(PresetManager.getPreset("default"));
+        ChessBoard board = new ChessBoard(Objects.requireNonNull(PresetManager.getPreset("default")));
+
+        boolean isWhiteTurn = true;//white goes first
 
         // Check if the game has been won, if not, continue playing
         while(!hasWon())
         {
             // Print the board
-//            System.out.println(board);
+            System.out.println(board);
 
             // Get user move
-            String userMove = getMove();
-
-            // Check if the input is valid, if not, prompt the user again
-            while(!isValidChessNotation(userMove))
-            {
-                System.out.println("Invalid input, please try again");
-                userMove = getMove();
-
-            }
+            String userMove = getValidMove(isWhiteTurn, board);
 
             // Get the start and end points from the notation
             Point[] notationPoints = getNotationPoints(userMove);
 
-            // Check if the play is valid
-
-
             // Play the move
             board.movePiece(notationPoints[0], notationPoints[1]);
 
-
-            // Print the board
-            System.out.println(board);
+            // Switch turns
+            isWhiteTurn = !isWhiteTurn;
         }
     }
 
@@ -57,13 +48,43 @@ public class ChessGame
     }
 
     /**
+     * Gets move from user, and does safety checks.
+     * If not valid, prompts user for another move using recursion
+     * @param isWhiteTurn (boolean) if it is white's turn
+     * @return (String) - the user's move
+     */
+    private String getValidMove(boolean isWhiteTurn, ChessBoard board)
+    {
+        String move = getMove(isWhiteTurn);
+
+        // Check if the notation is valid
+        if(!isValidChessNotation(move))
+        {
+            System.out.println("Invalid input, please try again");
+            move = getValidMove(isWhiteTurn, board);
+        }
+
+        // Check if the piece is the correct color
+        Point startPiecePoint = getNotationPoints(move)[0];
+        if(board.isPieceWhite(startPiecePoint) !=  isWhiteTurn)
+        {
+            System.out.println("Wrong color, please try again");
+            move = getValidMove(isWhiteTurn, board);
+        }
+
+        return move;
+    }
+
+    /**
      * Prompts the user for a move, and returns user input
      * @return (String) - the user input
      */
-    private String getMove()
+    private String getMove(boolean isWhiteTurn)
+
     {
+        String color = isWhiteTurn ? "White" : "Black";
         System.out.println();
-        System.out.print("Enter a move: ");
+        System.out.print("Enter a move " + color + ": ");
         return input.nextLine();
     }
 
