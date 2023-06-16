@@ -18,7 +18,7 @@ public class PresetManager
     public static void addPreset(String name, ChessPiece[][] preset)
     {
         String fileName = presetsPath + name + ".txt";
-        TextSerialize.serialize(preset, fileName);
+        ChessSerialize.serialize(preset, fileName);
     } // end addPreset(String, ChessPiece[][])
 
     /**
@@ -40,7 +40,7 @@ public class PresetManager
         }
         // serialize chessPiece[][] into a file
         String fileName = presetsPath + name + ".txt";
-        TextSerialize.serialize(chessBoard, fileName);
+        ChessSerialize.serialize(chessBoard, fileName);
     } // end addPreset(String, char[][])
 
     /**
@@ -60,7 +60,7 @@ public class PresetManager
         // Check if all files are valid presets and add them to the validPresets list
         for(File file : files)
         {
-            String[] fileContents = TextSerialize.readFile(file.getAbsolutePath()).split("\n");
+            String[] fileContents = ChessSerialize.readFile(file.getAbsolutePath()).split("\n");
             // Check if file is valid
             if(isValidPreset(fileContents))
             {
@@ -71,7 +71,7 @@ public class PresetManager
         // Serialize all valid presets and add them to the presets list
         for(File file : validPresets)
         {
-            presets.add(TextSerialize.deserialize(file.toString()));
+            presets.add(ChessSerialize.deserialize(file.toString()));
             presetNames.add(file.getName().replace(".txt", ""));
         }
     } // end loadPresets()
@@ -104,6 +104,7 @@ public class PresetManager
      */
     public static ChessPiece[][] getPreset(String name)
     {
+        name = name.toLowerCase();
         int index = presetNames.indexOf(name);
         if(index ==  -1)
         {
