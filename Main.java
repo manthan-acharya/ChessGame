@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.desktop.SystemSleepEvent;
 import java.util.Objects;
 
 public class Main
