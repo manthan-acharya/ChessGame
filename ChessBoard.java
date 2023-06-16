@@ -35,7 +35,16 @@ public class ChessBoard
      */
     public ChessBoard()
    {
-      board = new ChessPiece[8][8];
+       board = new ChessPiece[8][8];
+
+       // set each piece to empty to avoid null pointer exceptions
+       for(int row = 0; row < board.length; row++)
+       {
+           for(int col = 0; col < board[row].length; col++)
+           {
+               board[row][col] = new ChessPiece(ChessPiece.ChessPieceType.EMPTY);
+           }
+       }
    } // end ChessBoard();
 
     /**
@@ -117,14 +126,29 @@ public class ChessBoard
         return boardString.toString();
     } // end toString();
 
+    public boolean isPieceWhite(Point location)
+    {
+        // Invert the y value of the point
+        location = invertPointY(location);
+
+        String pieceEnumName = board[location.y][location.x].getType().toString();
+        return pieceEnumName.contains("WHITE");
+    }
+
     /**
      * Determines if a piece is present at a given location
      * @param location (Point) - the location to check
      * @return (boolean) - if a piece is at the location
      */
-    private boolean isLocationOccupied(Point location)
+    public boolean isLocationOccupied(Point location)
     {
-        ChessPiece pieceAtLocation = board[location.x][location.y];
+        // Invert the y value of the point
+        location = invertPointY(location);
+
+        // Get the piece at the location
+        ChessPiece pieceAtLocation = board[location.y][location.x];
+
+        // Check if the piece is empty
         boolean isPieceEmpty = pieceAtLocation.getType().equals(ChessPiece.ChessPieceType.EMPTY);
         return !isPieceEmpty;
     } // end isLocationOccupied(Point);
