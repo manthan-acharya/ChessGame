@@ -1,5 +1,4 @@
 import java.awt.Point;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ChessPiece
@@ -96,18 +95,25 @@ public class ChessPiece
         {
             case "PAWN":
                 moves = pawnMoves(start, isWhite);
+                break;
             case "ROOK":
                 moves = rookMoves(start, isWhite);
+                break;
             case "KNIGHT":
                 moves = knightMoves(start, isWhite);
+                break;
             case "BISHOP":
                 moves = bishopMoves(start, isWhite);
+                break;
             case "QUEEN":
                 moves = queenMoves(start, isWhite);
+                break;
             case "KING":
                 moves = kingMoves(start, isWhite);
+                break;
             default:
                 moves = null;
+                break;
         }
 
         // Check if the point is within the 8x8 board
@@ -199,7 +205,25 @@ public class ChessPiece
      */
     private static ArrayList<Point> knightMoves(Point start, boolean isWhite)
     {
-        return null;
+        ArrayList<Point> moves = new ArrayList<>();
+
+        // Adds the forward moves
+        moves.add(new Point(start.x + 1, start.y + 2));
+        moves.add(new Point(start.x - 1, start.y + 2));
+
+        // Adds the backward moves
+        moves.add(new Point(start.x + 1, start.y - 2));
+        moves.add(new Point(start.x - 1, start.y - 2));
+
+        // Adds the left moves
+        moves.add(new Point(start.x - 2, start.y + 1));
+        moves.add(new Point(start.x - 2, start.y - 1));
+
+        // Adds the right moves
+        moves.add(new Point(start.x + 2, start.y + 1));
+        moves.add(new Point(start.x + 2, start.y - 1));
+
+        return moves;
     } // end knightMoves(Point, boolean)
 
     /**
@@ -210,7 +234,33 @@ public class ChessPiece
      */
     private static ArrayList<Point> bishopMoves(Point start, boolean isWhite)
     {
-        return null;
+        ArrayList<Point> moves = new ArrayList<>();
+
+        // Adds diagonal left forward moves
+        for(int i = start.x, j = start.y; i > 0 && j < 7; i--, j++)
+        {
+            moves.add(new Point(i - 1, j + 1));
+        }
+
+        // Adds diagonal right forward moves
+        for(int i = start.x, j = start.y; i < 7 && j < 7; i++, j++)
+        {
+            moves.add(new Point(i + 1, j + 1));
+        }
+
+        // Adds diagonal left backward moves
+        for(int i = start.x, j = start.y; i > 0 && j > 0; i--, j--)
+        {
+            moves.add(new Point(i - 1, j - 1));
+        }
+
+        // Adds diagonal right backward moves
+        for(int i = start.x, j = start.y; i < 7 && j > 0; i++, j--)
+        {
+            moves.add(new Point(i + 1, j - 1));
+        }
+
+        return moves;
     } // end bishopMoves(Point, boolean)
 
     /**
@@ -221,7 +271,15 @@ public class ChessPiece
      */
     private static ArrayList<Point> queenMoves(Point start, boolean isWhite)
     {
-        return null;
+        ArrayList<Point> moves = new ArrayList<>();
+
+        // adds all the rook moves
+        moves.addAll(rookMoves(start, isWhite));
+
+        // adds all the bishop moves
+        moves.addAll(bishopMoves(start, isWhite));
+
+        return moves;
     } // end queenMoves(Point, boolean)
 
     /**
@@ -232,6 +290,16 @@ public class ChessPiece
      */
     private static ArrayList<Point> kingMoves(Point start, boolean isWhite)
     {
-        return null;
+        ArrayList<Point> moves = new ArrayList<>();
+
+        // Adds one move in each direction
+        for(int i = start.x - 1; i <= start.x + 1; i++)
+        {
+            for(int j = start.y - 1; j <= start.y + 1; j++)
+            {
+                moves.add(new Point(i, j));
+            }
+        }
+        return moves;
     } // end kingMoves(Point, boolean)
 }
