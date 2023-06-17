@@ -126,6 +126,51 @@ public class ChessBoard
         return boardString.toString();
     } // end toString();
 
+    public boolean isPieceEmpty(Point location)
+    {
+        // Invert the y value of the point
+        location = invertPointY(location);
+
+        String pieceEnumName = board[location.y][location.x].getType().toString();
+        return pieceEnumName.contains("EMPTY");
+    }
+
+    /**
+     * Determines if a piece is the same color at two locations
+     * @param start (Point) - the start location
+     * @param end (Point) - the end location
+     * @return (boolean) - if the pieces are the same color
+     */
+    public boolean isPieceSameColor(Point start, Point end)
+    {
+        // Invert the y value of the point
+        start = invertPointY(start);
+        end = invertPointY(end);
+
+        // Get the pieces at the start and end locations
+        ChessPiece startPiece = board[start.y][start.x];
+        ChessPiece endPiece = board[end.y][end.x];
+
+        // Check if both pieces contain the same color
+        String[] colors = {"WHITE", "BLACK", "EMPTY"};
+        for (String color : colors)
+        {
+            // If both pieces contain the same color
+            if(startPiece.getType().toString().contains(color) && endPiece.getType().toString().contains(color))
+            {
+                return true;
+            }
+        }
+        // else false
+        return false;
+    }
+
+    /**
+     * Determines if a piece is white at a given location.
+     * @implNote this method will return false for empty pieces
+     * @param location (Point) - the location to check
+     * @return (boolean) - if the piece is white
+     */
     public boolean isPieceWhite(Point location)
     {
         // Invert the y value of the point
@@ -134,24 +179,6 @@ public class ChessBoard
         String pieceEnumName = board[location.y][location.x].getType().toString();
         return pieceEnumName.contains("WHITE");
     }
-
-    /**
-     * Determines if a piece is present at a given location
-     * @param location (Point) - the location to check
-     * @return (boolean) - if a piece is at the location
-     */
-    public boolean isLocationOccupied(Point location)
-    {
-        // Invert the y value of the point
-        location = invertPointY(location);
-
-        // Get the piece at the location
-        ChessPiece pieceAtLocation = board[location.y][location.x];
-
-        // Check if the piece is empty
-        boolean isPieceEmpty = pieceAtLocation.getType().equals(ChessPiece.ChessPieceType.EMPTY);
-        return !isPieceEmpty;
-    } // end isLocationOccupied(Point);
 
     /**
      * Returns the row divider for this board.
