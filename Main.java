@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class Main
@@ -7,8 +9,9 @@ public class Main
     {
 //        testPrintPresets();
 //        testPrintNotationKey();
-        playGame();
+//        playGame();
 //        testObscure();
+        testChessPieceMoves();
     }
 
     public static void playGame()
@@ -52,5 +55,40 @@ public class Main
     public static void testPrintNotationKey()
     {
         ChessGame.printNotationKey();
+    }
+
+    public static void testChessPieceMoves()
+    {
+        // Create a board for each chess piece
+        ArrayList<ChessBoard> boards = new ArrayList<>();
+
+        ArrayList<ChessPiece> pieces = new ArrayList<>();
+        for(ChessPiece.ChessPieceType type : ChessPiece.ChessPieceType.values())
+        {
+            pieces.add(new ChessPiece(type));
+        }
+
+        for(ChessPiece piece : pieces)
+        {
+            boards.add(new ChessBoard());
+        }
+
+        for(int i = 0; i < pieces.size(); i++)
+        {
+            ChessPiece piece = pieces.get(i);
+            ChessBoard board = boards.get(i);
+
+            // get all possible moves for piece
+            Point[] moves = piece.getValidMoves(new Point(3, 3));
+
+            // Add all moves to board
+            for (Point move : moves)
+            {
+                board.getBoard()[move.x][move.y] = new ChessPiece(piece.getType());
+            }
+
+            // Print board
+            System.out.println(board);
+        }
     }
 }
