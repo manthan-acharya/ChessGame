@@ -60,18 +60,35 @@ public class ChessGame
         // Check if the notation is valid
         if(!isValidChessNotation(move))
         {
-            System.out.println("Invalid input, please try again");
+            System.out.println("Invalid notation, please try again");
+            move = getValidMove(isWhiteTurn, board);
+        }
+
+        // Get the start and end points from the notation
+        Point[] points = getNotationPoints(move);
+        Point startPoint = points[0];
+        Point endPoint = points[1];
+
+        // Check if selected piece is empty
+        if(board.isPieceEmpty(startPoint))
+        {
+            System.out.println("No piece selected, please try again");
             move = getValidMove(isWhiteTurn, board);
         }
 
         // Check if the piece is the correct color
-        Point startPiecePoint = getNotationPoints(move)[0];
-        if(board.isPieceWhite(startPiecePoint) !=  isWhiteTurn)
+        if(board.isPieceWhite(startPoint) !=  isWhiteTurn)
         {
-            System.out.println("Wrong color, please try again");
+            System.out.println("Wrong piece selected, please try again");
             move = getValidMove(isWhiteTurn, board);
         }
 
+        // Check if destination location is same color as start location
+        if(board.isPieceSameColor(startPoint, endPoint))
+        {
+            System.out.println("Destination location cannot be the same color as start location, please try again");
+            move = getValidMove(isWhiteTurn, board);
+        }
         return move;
     }
 
@@ -80,7 +97,6 @@ public class ChessGame
      * @return (String) - the user input
      */
     private String getMove(boolean isWhiteTurn)
-
     {
         String color = isWhiteTurn ? "White" : "Black";
         System.out.println();
@@ -99,7 +115,7 @@ public class ChessGame
         System.out.println("  - The coordinate format is as follows (letter)(number).");
         System.out.println("  - Next to the board is a key showing the letter and number for each square.");
         System.out.println("  - The letter is the column ranging from a-h, the number is the row ranging from 1-8.");
-        System.out.println("\nAn example of this notation is: d2d4 which means move piece at d2 to d4.");
+        System.out.println("\nAn example of this notation is: d2d4 or D2D4 which means move piece at d2 to d4.");
     }
 
     /**
