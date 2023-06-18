@@ -48,10 +48,10 @@ public class ChessPiece
          * @param type (ChessPieceType) the type to get the opposite color of
          * @return (ChessPieceType) the opposite color of the given type
          */
-        public static ChessPieceType getOppositeColor(ChessPieceType type)
+        public ChessPieceType getOppositeColor()
         {
             // Get the string value of the type as an array (ex: "KING_WHITE" -> ["KING", "WHITE"])
-            String[] typeString = type.toString().split("_");
+            String[] typeString = this.toString().split("_");
 
             // Get the opposite color
             String oppositeColor = typeString[1].equals("WHITE") ? "BLACK" : "WHITE";

@@ -103,7 +103,7 @@ public class Main
             for (Point move : moves)
             {
                 // Get opposite color
-                ChessPiece.ChessPieceType oppositeColor = ChessPiece.ChessPieceType.getOppositeColor(piece.getType());
+                ChessPiece.ChessPieceType oppositeColor = piece.getType().getOppositeColor();
 
                 // Add move as opposite color
                 board.getBoard()[move.y][move.x] = new ChessPiece(oppositeColor);
