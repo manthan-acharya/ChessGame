@@ -32,6 +32,17 @@ public class ChessPiece
             }
             return null;
         }
+        public static ChessPieceType getOppositeColor(ChessPieceType type)
+        {
+            // Get the string value of the type as an array (ex: "KING_WHITE" -> ["KING", "WHITE"])
+            String[] typeString = type.toString().split("_");
+
+            // Get the opposite color
+            String oppositeColor = typeString[1].equals("WHITE") ? "BLACK" : "WHITE";
+
+            // Return the opposite color type
+            return ChessPieceType.valueOf(typeString[0] + "_" + oppositeColor);
+        }
     } // end ChessPieceType
 
     private ChessPieceType type;
@@ -116,14 +127,21 @@ public class ChessPiece
                 break;
         }
 
-        // Check if the point is within the 8x8 board
+        // Sanit Check: check if the point is within the 8x8 board
+        ArrayList<Point> movesToRemove = new ArrayList<>();
         for(Point move : moves)
         {
             if((move.x < 0 || move.x > 7) || (move.y < 0 || move.y > 7))
             {
-                moves.remove(move);
+                movesToRemove.add(move);
             }
         }
+        // Remove points that are not on the board
+        moves.removeAll(movesToRemove);
+
+        // Sanity Check: remove point if equal to start point
+        moves.remove(start);
+
 
         // convert ArrayList to array
         Point[] validMoves = new Point[moves.size()];
@@ -147,7 +165,7 @@ public class ChessPiece
         int direction = isWhite ? 1 : -1;
 
         // Adds the forward move
-        moves.add(new Point(start.x, start.y + direction));
+        moves.add(new Point(start.x, start.y + (direction * 1)));
 
         // Adds the double forward move
         moves.add(new Point(start.x, start.y + (direction * 2)));
@@ -297,6 +315,12 @@ public class ChessPiece
         {
             for(int j = start.y - 1; j <= start.y + 1; j++)
             {
+                Point possibleMove = new Point(i, j);
+
+                if(possibleMove.equals(start))
+                {
+                    continue;
+                }
                 moves.add(new Point(i, j));
             }
         }
