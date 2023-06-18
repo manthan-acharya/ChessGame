@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Objects;
 
 public class Main
@@ -59,34 +58,53 @@ public class Main
 
     public static void testChessPieceMoves()
     {
-        // Create a board for each chess piece
+        // Create an array list of boards and pieces
         ArrayList<ChessBoard> boards = new ArrayList<>();
-
         ArrayList<ChessPiece> pieces = new ArrayList<>();
+
+        // Add each chess piece type to pieces
         for(ChessPiece.ChessPieceType type : ChessPiece.ChessPieceType.values())
         {
             pieces.add(new ChessPiece(type));
         }
 
+        // Create a board for each piece
         for(ChessPiece piece : pieces)
         {
             boards.add(new ChessBoard());
         }
 
-        for(int i = 0; i < pieces.size(); i++)
+        // Loop through number of pieces/boards, and print all possible moves for each piece
+        for(int i = 0; i < pieces.size() - 1; i++)
         {
+            // Get piece and board at index
             ChessPiece piece = pieces.get(i);
             ChessBoard board = boards.get(i);
 
-            // get all possible moves for piece
-            Point[] moves = piece.getValidMoves(new Point(3, 3));
+            // original piece starting point to get possible moves
+            Point startingPoint = new Point(7, 3);
 
-            // Add all moves to board
+            // invert point cuz board indexes as array (top left down), instead of chess (bottom left up)
+            startingPoint.y = 7 - startingPoint.y;
+
+            // get all possible moves for piece
+            Point[] moves = piece.getValidMoves(startingPoint);
+
+            // Add all moves to board as opposite color
             for (Point move : moves)
             {
-                board.getBoard()[move.x][move.y] = new ChessPiece(piece.getType());
+                // Get opposite color
+                ChessPiece.ChessPieceType oppositeColor = ChessPiece.ChessPieceType.getOppositeColor(piece.getType());
+
+                // Add move as opposite color
+                board.getBoard()[move.y][move.x] = new ChessPiece(oppositeColor);
             }
 
+            // Add original starting point as original color
+            board.getBoard()[startingPoint.y][startingPoint.x] = new ChessPiece(piece.getType());
+
+            // Print piece name
+            System.out.println(piece.getType());
             // Print board
             System.out.println(board);
         }
