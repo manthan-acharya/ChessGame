@@ -126,6 +126,11 @@ public class ChessBoard
         return boardString.toString();
     } // end toString();
 
+    /**
+     * Determines if a piece is empty at a given location
+     * @param location (Point) - the location to check
+     * @return (boolean) - if the piece is empty
+     */
     public boolean isPieceEmpty(Point location)
     {
         // Invert the y value of the point

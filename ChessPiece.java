@@ -15,10 +15,20 @@ public class ChessPiece
             this.unicode = unicode;
         }
 
+        /**
+         * Returns the unicode value of the enum
+         * @return (String) the unicode value
+         */
         public String getUnicode()
         {
             return unicode;
         }
+
+        /**
+         * Returns the enum value of a given unicode value
+         * @param value (String) the unicode value to get the enum of
+         * @return (ChessPieceType) the enum value
+         */
         public static ChessPieceType enumLookup(String value)
         {
             // Iterate through each enum value
@@ -32,6 +42,12 @@ public class ChessPiece
             }
             return null;
         }
+
+        /**
+         * Returns the opposite color enum of a given enum
+         * @param type (ChessPieceType) the type to get the opposite color of
+         * @return (ChessPieceType) the opposite color of the given type
+         */
         public static ChessPieceType getOppositeColor(ChessPieceType type)
         {
             // Get the string value of the type as an array (ex: "KING_WHITE" -> ["KING", "WHITE"])
@@ -145,7 +161,7 @@ public class ChessPiece
      * @param isWhite (boolean) if the piece is white
      * @return (ArrayList<Point>) all moves for a pawn piece
      */
-    private static ArrayList<Point> pawnMoves(Point start, boolean isWhite)
+    private ArrayList<Point> pawnMoves(Point start, boolean isWhite)
     {
         // Creates an array of points to store the moves
         ArrayList<Point> moves = new ArrayList<>();
@@ -156,8 +172,11 @@ public class ChessPiece
         // Adds the forward move
         moves.add(new Point(start.x, start.y + (direction)));
 
-        // Adds the double forward move
-        moves.add(new Point(start.x, start.y + (direction * 2)));
+        // Adds the double forward move if the pawn has not moved
+        if(!this.hasBeenMoved())
+        {
+            moves.add(new Point(start.x, start.y + (direction * 2)));
+        }
 
         // Adds the diagonal moves
         moves.add(new Point(start.x + 1, start.y + direction));

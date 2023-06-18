@@ -36,6 +36,9 @@ public class Main
         System.out.println(board.isPieceWhite(new Point(0, 0)));
     }
 
+    /**
+     * Test method for printing all saved presets
+     */
     public static void testPrintPresets()
     {
         // load presets
@@ -51,11 +54,17 @@ public class Main
         }
     }
 
+    /**
+     * Test method for printing the notation key
+     */
     public static void testPrintNotationKey()
     {
         ChessGame.printNotationKey();
     }
 
+    /**
+     * Test method for printing all possible moves for each piece
+     */
     public static void testChessPieceMoves()
     {
         // Create an array list of boards and pieces
@@ -109,4 +118,10 @@ public class Main
             System.out.println(board);
         }
     }
+
+    /**
+     * Test method for checking if a piece is in check
+     */
+    public static void testInCheck()
+    {}
 }
