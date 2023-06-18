@@ -5,7 +5,7 @@ import java.awt.*;
 public class ChessBoard
 {
     // Board[row][col]
-   private ChessPiece[][] board;
+   private final ChessPiece[][] board;
 
    /**
     * Creates a new chess board with the given board
@@ -199,7 +199,7 @@ public class ChessBoard
         // Create a stringBuilder to append to, and add the dashes
         String rowDivider = "-";
         rowDivider = rowDivider.repeat(numberOfDashes);
-        return rowDivider.toString();
+        return rowDivider;
     } // end rowDivider();
 
     /**
