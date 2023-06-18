@@ -99,35 +99,24 @@ public class ChessPiece
         // Determines the type of piece
         String type = this.getType().toString().split("_")[0];
 
-        ArrayList<Point> moves;
-
         // Gets appropriate moves for the piece
-        switch(type)
+        ArrayList<Point> moves = switch (type) {
+            case "PAWN" -> pawnMoves(start, isWhite);
+            case "ROOK" -> rookMoves(start, isWhite);
+            case "KNIGHT" -> knightMoves(start, isWhite);
+            case "BISHOP" -> bishopMoves(start, isWhite);
+            case "QUEEN" -> queenMoves(start, isWhite);
+            case "KING" -> kingMoves(start, isWhite);
+            default -> null;
+        };
+
+        // prevent null pointer exception
+        if(moves == null)
         {
-            case "PAWN":
-                moves = pawnMoves(start, isWhite);
-                break;
-            case "ROOK":
-                moves = rookMoves(start, isWhite);
-                break;
-            case "KNIGHT":
-                moves = knightMoves(start, isWhite);
-                break;
-            case "BISHOP":
-                moves = bishopMoves(start, isWhite);
-                break;
-            case "QUEEN":
-                moves = queenMoves(start, isWhite);
-                break;
-            case "KING":
-                moves = kingMoves(start, isWhite);
-                break;
-            default:
-                moves = null;
-                break;
+            return null;
         }
 
-        // Sanit Check: check if the point is within the 8x8 board
+        // Sanity Check: check if the point is within the 8x8 board
         ArrayList<Point> movesToRemove = new ArrayList<>();
         for(Point move : moves)
         {
@@ -136,7 +125,7 @@ public class ChessPiece
                 movesToRemove.add(move);
             }
         }
-        // Remove points that are not on the board
+            // Remove points that are not on the board
         moves.removeAll(movesToRemove);
 
         // Sanity Check: remove point if equal to start point
@@ -165,7 +154,7 @@ public class ChessPiece
         int direction = isWhite ? 1 : -1;
 
         // Adds the forward move
-        moves.add(new Point(start.x, start.y + (direction * 1)));
+        moves.add(new Point(start.x, start.y + (direction)));
 
         // Adds the double forward move
         moves.add(new Point(start.x, start.y + (direction * 2)));
