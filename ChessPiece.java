@@ -117,11 +117,11 @@ public class ChessPiece
         // Gets appropriate moves for the piece
         ArrayList<Point> moves = switch (type) {
             case "PAWN" -> pawnMoves(start, isWhite);
-            case "ROOK" -> rookMoves(start, isWhite);
-            case "KNIGHT" -> knightMoves(start, isWhite);
-            case "BISHOP" -> bishopMoves(start, isWhite);
-            case "QUEEN" -> queenMoves(start, isWhite);
-            case "KING" -> kingMoves(start, isWhite);
+            case "ROOK" -> rookMoves(start);
+            case "KNIGHT" -> knightMoves(start);
+            case "BISHOP" -> bishopMoves(start);
+            case "QUEEN" -> queenMoves(start);
+            case "KING" -> kingMoves(start);
             default -> null;
         };
 
@@ -187,10 +187,9 @@ public class ChessPiece
     /**
      * Returns the all moves for a rook piece.
      * @param start (Point) the starting location of the piece
-     * @param isWhite (boolean) if the piece is white
      * @return (ArrayList<Point>) all moves for a rook piece
      */
-    private static ArrayList<Point> rookMoves(Point start, boolean isWhite)
+    private static ArrayList<Point> rookMoves(Point start)
     {
         // Creates an array of points to store the moves
         ArrayList<Point> moves = new ArrayList<>();
@@ -225,10 +224,9 @@ public class ChessPiece
     /**
      * Returns the all moves for a knight piece.
      * @param start (Point) the starting location of the piece
-     * @param isWhite (boolean) if the piece is white
      * @return (ArrayList<Point>) all moves for a knight piece
      */
-    private static ArrayList<Point> knightMoves(Point start, boolean isWhite)
+    private static ArrayList<Point> knightMoves(Point start)
     {
         ArrayList<Point> moves = new ArrayList<>();
 
@@ -254,10 +252,9 @@ public class ChessPiece
     /**
      * Returns the all moves for a bishop piece.
      * @param start (Point) the starting location of the piece
-     * @param isWhite (boolean) if the piece is white
      * @return (ArrayList<Point>) all moves for a bishop piece
      */
-    private static ArrayList<Point> bishopMoves(Point start, boolean isWhite)
+    private static ArrayList<Point> bishopMoves(Point start)
     {
         ArrayList<Point> moves = new ArrayList<>();
 
@@ -291,18 +288,17 @@ public class ChessPiece
     /**
      * Returns the all moves for a queen piece.
      * @param start (Point) the starting location of the piece
-     * @param isWhite (boolean) if the piece is white
      * @return (ArrayList<Point>) all moves for a queen piece
      */
-    private static ArrayList<Point> queenMoves(Point start, boolean isWhite)
+    private static ArrayList<Point> queenMoves(Point start)
     {
         ArrayList<Point> moves = new ArrayList<>();
 
         // adds all the rook moves
-        moves.addAll(rookMoves(start, isWhite));
+        moves.addAll(rookMoves(start));
 
         // adds all the bishop moves
-        moves.addAll(bishopMoves(start, isWhite));
+        moves.addAll(bishopMoves(start));
 
         return moves;
     } // end queenMoves(Point, boolean)
@@ -310,10 +306,9 @@ public class ChessPiece
     /**
      * Returns the all moves for a king piece.
      * @param start (Point) the starting location of the piece
-     * @param isWhite (boolean) if the piece is white
      * @return (ArrayList<Point>) all moves for a king piece
      */
-    private static ArrayList<Point> kingMoves(Point start, boolean isWhite)
+    private static ArrayList<Point> kingMoves(Point start)
     {
         ArrayList<Point> moves = new ArrayList<>();
 
