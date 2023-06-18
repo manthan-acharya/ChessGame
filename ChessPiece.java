@@ -45,7 +45,6 @@ public class ChessPiece
 
         /**
          * Returns the opposite color enum of a given enum
-         * @param type (ChessPieceType) the type to get the opposite color of
          * @return (ChessPieceType) the opposite color of the given type
          */
         public ChessPieceType getOppositeColor()
