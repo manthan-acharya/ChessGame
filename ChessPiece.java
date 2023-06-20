@@ -71,6 +71,17 @@ public class ChessPiece
     {
         this.type = type;
     } // end ChessPiece(ChessPieceType)
+
+    /**
+     * Creates a new chessPiece from an existing chessPiece
+     * @param piece (ChessPiece) the piece to copy
+     */
+    ChessPiece(ChessPiece piece)
+    {
+        this.type = piece.getType();
+        this.hasMoved = piece.hasBeenMoved();
+    } // end ChessPiece(ChessPiece)
+
     /**
      * Sets the type of this piece.
      * Can be used to upgrade pawns.
@@ -165,8 +176,8 @@ public class ChessPiece
         // Creates an array of points to store the moves
         ArrayList<Point> moves = new ArrayList<>();
 
-        // Determines the direction the pawn moves
-        int direction = isWhite ? 1 : -1;
+        // Determines the direction the pawn moves (white moves up, black moves down)
+        int direction = isWhite ? -1 : 1;
 
         // Adds the forward move
         moves.add(new Point(start.x, start.y + (direction)));
