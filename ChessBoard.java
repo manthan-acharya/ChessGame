@@ -64,25 +64,10 @@ public class ChessBoard
      */
     public void movePiece(Point pieceLocation, Point dest)
     {
-        // Invert the y values of the points
-        pieceLocation = invertPointY(pieceLocation);
-        dest = invertPointY(dest);
-
         // Move the piece by changing the type of the piece at the destination to the type of the piece at the piece location
         ChessPiece.ChessPieceType pieceType = board[pieceLocation.y][pieceLocation.x].getType(); // get type before overwriting
         board[pieceLocation.y][pieceLocation.x].setType(ChessPiece.ChessPieceType.EMPTY); // overwrite piece
         board[dest.y][dest.x].setType(pieceType); // set destination to type
-    }
-
-    /**
-     * Inverts the y value of a point.
-     * This is used because the board is stored in a 2D array, and the array is indexed from the top left.
-     * @param point (Point) - the point to invert
-     * @return (Point) - the inverted point
-     */
-    private Point invertPointY(Point point)
-    {
-        return new Point(point.x, 7 - point.y);
     }
 
     /**
@@ -133,9 +118,6 @@ public class ChessBoard
      */
     public boolean isPieceEmpty(Point location)
     {
-        // Invert the y value of the point
-        location = invertPointY(location);
-
         String pieceEnumName = board[location.y][location.x].getType().toString();
         return pieceEnumName.contains("EMPTY");
     }
@@ -148,10 +130,6 @@ public class ChessBoard
      */
     public boolean isPieceSameColor(Point start, Point end)
     {
-        // Invert the y value of the point
-        start = invertPointY(start);
-        end = invertPointY(end);
-
         // Get the pieces at the start and end locations
         ChessPiece startPiece = board[start.y][start.x];
         ChessPiece endPiece = board[end.y][end.x];
@@ -178,11 +156,35 @@ public class ChessBoard
      */
     public boolean isPieceWhite(Point location)
     {
-        // Invert the y value of the point
-        location = invertPointY(location);
-
         String pieceEnumName = board[location.y][location.x].getType().toString();
         return pieceEnumName.contains("WHITE");
+    }
+
+    /**
+     * Determines if a move is valid for a piece at given locations.
+     * @implNote Must have a piece at the pieceLocation
+     * @param pieceLocation (Point) - the location of the piece to move
+     * @param destination (Point) - the location to move the piece to
+     * @return (boolean) - if the move follows the rules of chess
+     * */
+    public boolean isValidMove(Point pieceLocation, Point destination)
+    {
+        // Get the piece at the piece location
+        ChessPiece piece = board[pieceLocation.y][pieceLocation.x];
+
+        // Get the valid moves for the piece at the piece location
+        Point[] validPoints = piece.getValidMoves(pieceLocation);
+
+        // Check if the destination is in the valid points array
+        for(Point validPoint : validPoints)
+        {
+            if(destination.equals(validPoint))
+            {
+                return true;
+            }
+        }
+        // else
+        return false;
     }
 
     /**
@@ -204,25 +206,45 @@ public class ChessBoard
 
     /**
      * Returns the piece at a given location
-     * Uses ChessPiece memory location to compare pieces
-     * @param piece (ChessPiece) - the piece to find
-     * @return (Point) - the location of the piece
+     * @param location (Point) - the location to get the piece from
+     * @return (ChessPiece) - the piece at the location (copy of object) or null if empty
      */
-    private Point getPieceLocation(ChessPiece piece)
+    public ChessPiece getPiece(Point location)
     {
-        // Iterate through each row of the board
-        for(int boardRow = 0; boardRow < board.length; boardRow++)
+        ChessPiece piece = board[location.y][location.x];
+
+        // Return null if the piece is empty
+        if(piece.getType().equals(ChessPiece.ChessPieceType.EMPTY))
         {
-            // Iterate through each column of the board
-            for(int boardCol = 0; boardCol < board[boardRow].length; boardCol++)
-                {
-                    // Compare the memory location of the piece to the memory location of the piece at the current location
-                    if (piece ==  board[boardRow][boardCol])
-                    {
-                        return new Point(boardRow, boardCol);
-                    }
-                }
+            return null;
         }
-        return null;
-    } // end getPieceLocation(ChessPiece);
+
+        // Return a new object of the piece at the location
+        return new ChessPiece(piece);
+    }
+
+    // TODO: Remove this method
+//    /**
+//     * Returns the piece at a given location
+//     * Uses ChessPiece memory location to compare pieces
+//     * @param piece (ChessPiece) - the piece to find
+//     * @return (Point) - the location of the piece
+//     */
+//    private Point getPieceLocation(ChessPiece piece)
+//    {
+//        // Iterate through each row of the board
+//        for(int boardRow = 0; boardRow < board.length; boardRow++)
+//        {
+//            // Iterate through each column of the board
+//            for(int boardCol = 0; boardCol < board[boardRow].length; boardCol++)
+//                {
+//                    // Compare the memory location of the piece to the memory location of the piece at the current location
+//                    if (piece ==  board[boardRow][boardCol])
+//                    {
+//                        return new Point(boardRow, boardCol);
+//                    }
+//                }
+//        }
+//        return null;
+//    } // end getPieceLocation(ChessPiece);
 }
