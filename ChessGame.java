@@ -19,7 +19,7 @@ public class ChessGame
         boolean isWhiteTurn = true;//white goes first
 
         // Check if the game has been won, if not, continue playing
-        while(!hasWon())
+        while(!hasEnded(board))
         {
             // Print the board
             System.out.println(board);
@@ -36,15 +36,43 @@ public class ChessGame
             // Switch turns
             isWhiteTurn = !isWhiteTurn;
         }
+
+        // Print the board
+        System.out.println(board);
+
+        // Print the winner
+        if(hasWon(board, true))
+        {
+            System.out.println("White has won!");
+        }
+        else if(hasWon(board, false))
+        {
+            System.out.println("Black has won!");
+        }
+        else
+        {
+            System.out.println("The game has ended in a draw!");
+        }
     }
 
     /**
      * Checks if the game has been won
      * @return (boolean) - true if the game has been won, false otherwise
      */
-    public boolean hasWon()
+    public boolean hasEnded(ChessBoard board)
     {
-        return false;
+        // Determine if game ended by if king has been captured
+        return board.getKingLocation(true) == null || board.getKingLocation(false) == null;
+    }
+
+    /**
+     * Checks if the specified player has won
+     * @param isWhite (boolean) - if the player is white
+     * @return (boolean) - true if the player has won, false otherwise
+     */
+    public boolean hasWon(ChessBoard board, boolean isWhite)
+    {
+        return hasEnded(board) && board.getKingLocation(isWhite) == null;
     }
 
     /**
@@ -176,13 +204,9 @@ public class ChessGame
         }
 
         // Check if the second point are valid (a-h, 1-8)
-        if (!(isValidColumnInput(input.charAt(2)) && isValidRowInput(input.charAt(3))))
-        {
-            return false;
-        }
+        return isValidColumnInput(input.charAt(2)) && isValidRowInput(input.charAt(3));
 
         // return true if all the checks pass
-        return true;
     }
 
     /**
