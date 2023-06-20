@@ -164,27 +164,44 @@ public class ChessBoard
      * Determines if a move is valid for a piece at given locations.
      * @implNote Must have a piece at the pieceLocation
      * @param pieceLocation (Point) - the location of the piece to move
-     * @param destination (Point) - the location to move the piece to
+     * @param dest (Point) - the location to move the piece to
      * @return (boolean) - if the move follows the rules of chess
      * */
-    public boolean isValidMove(Point pieceLocation, Point destination)
+    public boolean isValidMove(Point pieceLocation, Point dest)
     {
         // Get the piece at the piece location
         ChessPiece piece = board[pieceLocation.y][pieceLocation.x];
 
-        // Get the valid moves for the piece at the piece location
         Point[] validPoints = piece.getValidMoves(pieceLocation);
+        boolean isValid = false;
 
         // Check if the destination is in the valid points array
         for(Point validPoint : validPoints)
         {
-            if(destination.equals(validPoint))
+            if (dest.equals(validPoint))
             {
-                return true;
+                isValid = true;
+                break;
             }
         }
-        // else
-        return false;
+
+        // ------ Pawn Diagonal Special Case ------
+        // Check if the destination is diagonal from the piece (x and y are one space away)
+        boolean isDiagonal = Math.abs(dest.x - pieceLocation.x) ==  1 && Math.abs(dest.y - pieceLocation.y) ==  1;
+
+        // Check if piece is a pawn and if the destination is diagonal (moving diagonally one space)
+        if(piece.getType().toString().toUpperCase().contains("PAWN") && isDiagonal)
+        {
+            int direction = isPieceWhite(pieceLocation) ? -1 : 1;
+
+            // Check if the destination is occupied by an enemy piece
+            if(!isPieceSameColor(pieceLocation, dest))
+            {
+                isValid = true;
+            }
+        }
+
+        return isValid;
     }
 
     /**
@@ -222,29 +239,4 @@ public class ChessBoard
         // Return a new object of the piece at the location
         return new ChessPiece(piece);
     }
-
-    // TODO: Remove this method
-//    /**
-//     * Returns the piece at a given location
-//     * Uses ChessPiece memory location to compare pieces
-//     * @param piece (ChessPiece) - the piece to find
-//     * @return (Point) - the location of the piece
-//     */
-//    private Point getPieceLocation(ChessPiece piece)
-//    {
-//        // Iterate through each row of the board
-//        for(int boardRow = 0; boardRow < board.length; boardRow++)
-//        {
-//            // Iterate through each column of the board
-//            for(int boardCol = 0; boardCol < board[boardRow].length; boardCol++)
-//                {
-//                    // Compare the memory location of the piece to the memory location of the piece at the current location
-//                    if (piece ==  board[boardRow][boardCol])
-//                    {
-//                        return new Point(boardRow, boardCol);
-//                    }
-//                }
-//        }
-//        return null;
-//    } // end getPieceLocation(ChessPiece);
 }
