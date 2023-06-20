@@ -187,12 +187,12 @@ public class ChessBoard
 
         // ------ Pawn Diagonal Special Case ------
         // Check if the destination is diagonal from the piece (x and y are one space away)
-        boolean isDiagonal = Math.abs(dest.x - pieceLocation.x) ==  1 && Math.abs(dest.y - pieceLocation.y) ==  1;
+        int direction = isPieceWhite(pieceLocation) ? -1 : 1;
+        boolean isDiagonal = Math.abs(dest.x - pieceLocation.x) ==  1 && pieceLocation.y + direction ==  dest.y;
 
         // Check if piece is a pawn and if the destination is diagonal (moving diagonally one space)
         if(piece.getType().toString().toUpperCase().contains("PAWN") && isDiagonal)
         {
-            int direction = isPieceWhite(pieceLocation) ? -1 : 1;
 
             // Check if the destination is occupied by an enemy piece
             if(!isPieceSameColor(pieceLocation, dest))
