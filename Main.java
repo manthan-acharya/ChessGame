@@ -8,9 +8,9 @@ public class Main
     {
 //        testPrintPresets();
 //        testPrintNotationKey();
-//        playGame();
+        playGame();
 //        testObscure();
-        testChessPieceMoves();
+//        testChessPieceMoves();
     }
 
     public static void playGame()
@@ -31,9 +31,6 @@ public class Main
         ChessBoard board = new ChessBoard(Objects.requireNonNull(PresetManager.getPreset("default")));
 
         System.out.println(board);
-
-        // print result of isPieceWhite
-        System.out.println(board.isPieceWhite(new Point(0, 0)));
     }
 
     /**
@@ -97,7 +94,7 @@ public class Main
             startingPoint.y = 7 - startingPoint.y;
 
             // get all possible moves for piece
-            Point[] moves = piece.getValidMoves(startingPoint);
+            Point[] moves = piece.getPossibleMoves(startingPoint);
 
             // Add all moves to board as opposite color
             for (Point move : moves)
@@ -123,5 +120,8 @@ public class Main
      * Test method for checking if a piece is in check
      */
     public static void testInCheck()
-    {}
+    {
+        // TODO: Create in check and checkmate presets and tests
+
+    }
 }
