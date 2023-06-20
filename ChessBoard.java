@@ -1,6 +1,7 @@
 //chess board class which holds the chess pieces in a chess board object
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ChessBoard
 {
@@ -49,6 +50,7 @@ public class ChessBoard
 
     /**
      * Gets this chess board
+     * @implNote does not return a copy of the board, but the actual reference to the board
      * @return (ChessPiece[][]) - this board
      */
    public ChessPiece[][] getBoard()
@@ -161,6 +163,17 @@ public class ChessBoard
     }
 
     /**
+     * Determines if a piece is white
+     * @param piece (ChessPiece) - the piece to check
+     * @return (boolean) - if the piece is white
+     */
+    public boolean isPieceWhite(ChessPiece piece)
+    {
+        String pieceEnumName = piece.getType().toString();
+        return pieceEnumName.contains("WHITE");
+    }
+
+    /**
      * Determines if a move is valid for a piece at given locations.
      * @implNote Must have a piece at the pieceLocation
      * @param pieceLocation (Point) - the location of the piece to move
@@ -172,7 +185,7 @@ public class ChessBoard
         // Get the piece at the piece location
         ChessPiece piece = board[pieceLocation.y][pieceLocation.x];
 
-        Point[] validPoints = piece.getValidMoves(pieceLocation);
+        Point[] validPoints = piece.getPossibleMoves(pieceLocation);
         boolean isValid = false;
 
         // Check if the destination is in the valid points array
@@ -202,6 +215,177 @@ public class ChessBoard
         }
 
         return isValid;
+    }
+
+    // TODO: Implement this method
+    /**
+     * Determines of a specified king is in checkmate
+     * @param isWhiteKing (boolean) - if the king is white
+     * @return (boolean) - if the king is in checkmate
+     */
+    public boolean isKingCheckMate(boolean isWhiteKing)
+    {
+        // Check if the king is in check
+        if(!isKingInCheck(isWhiteKing))
+        {
+            System.out.println("King is not in check"); // TODO: Debugging remove
+            return false;
+        }
+
+        // Get the king's location
+        Point kingLocation = getKingLocation(isWhiteKing);
+
+        // Get all possible moves for the king
+        Point[] kingMoves = board[kingLocation.y][kingLocation.x].getPossibleMoves(kingLocation);
+
+        // Check if the king can move out of check
+        for(Point move : kingMoves)
+        {
+            // Check if the king can move to the new location
+            if(!isKingInCheck(isWhiteKing, move) && !isPieceSameColor(kingLocation, move))
+            {
+                System.out.println("King can move out of check"); // TODO: Debugging remove
+                return false;
+            }
+        }
+
+
+        // Brute force every piece's moves to see if they can block the check
+        ArrayList<Point>[] pieceMoves = getAllTeamMoves(isWhiteKing);
+        ArrayList<Point> originalLocations = pieceMoves[0];
+        ArrayList<Point> newLocations = pieceMoves[1];
+
+        for(int i = 0; i < originalLocations.size() - 1; i++)
+        {
+            // Create another board to emulate the move
+            ChessBoard tempBoard = new ChessBoard(this.board);
+
+            // Move the piece
+            tempBoard.movePiece(originalLocations.get(i), newLocations.get(i));
+
+            // Check if the king is still in check
+            if(!tempBoard.isKingInCheck(isWhiteKing))
+            {
+                System.out.println("Piece can block check"); // TODO: Debugging remove
+                return false;
+            }
+        }
+
+        // If none of these *lengthy* conditions are met, the king is in checkmate
+        return true;
+    }
+
+    /**
+     * Determines if a piece is in check
+     * @implNote This method will return false if the king is not on the board.
+     *           This method will return the check status of the first king found
+     *           if multiple kings are on the board.
+     * @param isWhiteKing (boolean) - if the king is white
+     * @return (boolean) - if the king is in check
+     */
+    public boolean isKingInCheck(boolean isWhiteKing)
+    {
+        // Get the king's location
+        Point kingLocation = getKingLocation(isWhiteKing);
+
+        // Check if the king is in check using overloaded method
+        return isKingInCheck(isWhiteKing, kingLocation);
+    }
+
+    /**
+     * Determines if a king is in check at a given location
+     * @implNote This method will return false is kingLocation is null.
+     *           This method also does not check if kingLocation has a king.
+     * @param isWhiteKing (boolean) - if the king is white
+     * @param kingLocation (Point) - the location of the king
+     * @return (boolean) - if the king is in check
+     */
+    private boolean isKingInCheck(boolean isWhiteKing, Point kingLocation)
+    {
+        // If the king is not on the board, return false
+        if(kingLocation ==  null) { return false; }
+
+        // Get all possible moves for all enemy pieces
+        ArrayList<Point> enemyMoves = getAllTeamMoves(!isWhiteKing)[1];
+
+        // Check if the king's location is in the enemy moves
+        for(Point move : enemyMoves)
+        {
+            if(move.equals(kingLocation))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Gets the location of the first king found on the board.
+     * @implNote This method will return null if the king is not on the board.
+     * @param isWhiteKing (boolean) - if the king is white
+     * @return (Point) - the location of the king
+     */
+    public Point getKingLocation(boolean isWhiteKing)
+    {
+        // Iterate through the board
+        for(int row = 0; row < board.length; row++)
+        {
+            for(int column = 0; column < board[row].length; column++)
+            {
+                // Get the piece at the current location
+                ChessPiece piece = board[row][column];
+
+                // If the piece is the king and white, return the location
+                if(isPieceWhite(piece) ==  isWhiteKing && piece.getType().toString().toUpperCase().contains("KING"))
+                {
+                    return new Point(column, row);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets all possible moves for a team
+     * @param isWhite (boolean) - if the team is white
+     * @return (ArrayList<Point>) - all possible moves for all the pieces on the team
+     */
+    public ArrayList<Point>[] getAllTeamMoves(boolean isWhite)
+    {
+        // index 0 is original location, index 1 is new location
+        ArrayList<Point>[] allTeamMoves = new ArrayList[2];
+
+        // Initialize the arraylists
+        for(int i = 0; i < allTeamMoves.length; i++)
+        {
+            allTeamMoves[i] = new ArrayList<>();
+        }
+        // Iterate through the board
+        for(int row = 0; row < board.length; row++)
+        {
+            for(int column = 0; column < board[row].length; column++)
+            {
+                // Get the piece at the current location
+                ChessPiece piece = board[row][column];
+
+                // If the piece is on the team
+                if(isPieceWhite(piece) ==  isWhite)
+                {
+                    // Get all valid moves for the piece
+                    Point[] validMoves = piece.getPossibleMoves(new Point(column, row));
+                    for (Point validMove : validMoves) {
+                        // Add the new location to the list
+                        allTeamMoves[1].add(validMove);
+
+                        // Add the original location to the list
+                        allTeamMoves[0].add(new Point(column, row));
+                    }
+                }
+            }
+        }
+
+        // Return the list of all possible moves
+        return allTeamMoves;
     }
 
     /**
