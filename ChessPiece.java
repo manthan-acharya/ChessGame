@@ -117,7 +117,7 @@ public class ChessPiece
      * @param start (Point) the starting location of the piece
      * @return (Point[]) all moves for a piece
      */
-    public Point[] getValidMoves(Point start)
+    public Point[] getPossibleMoves(Point start)
     {
         // Determines which side the piece is on
         boolean isWhite = this.getType().toString().contains("WHITE");
@@ -133,14 +133,8 @@ public class ChessPiece
             case "BISHOP" -> bishopMoves(start);
             case "QUEEN" -> queenMoves(start);
             case "KING" -> kingMoves(start);
-            default -> null;
+            default ->  new ArrayList<>();
         };
-
-        // prevent null pointer exception
-        if(moves == null)
-        {
-            return null;
-        }
 
         // Sanity Check: check if the point is within the 8x8 board
         ArrayList<Point> movesToRemove = new ArrayList<>();
