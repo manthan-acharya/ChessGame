@@ -166,7 +166,9 @@ public class ChessPiece
     } // end getValidMoves(Point)
 
     /**
-     * Returns the all moves for a pawn piece.
+     * Returns the possible moves for a pawn piece.
+     * @implNote Does not include en passant or diagonal capture moves,
+     *           as captures can only be determined by ChessBoard.
      * @param start (Point) the starting location of the piece
      * @param isWhite (boolean) if the piece is white
      * @return (ArrayList<Point>) all moves for a pawn piece
@@ -187,10 +189,6 @@ public class ChessPiece
         {
             moves.add(new Point(start.x, start.y + (direction * 2)));
         }
-
-        // Adds the diagonal moves
-        moves.add(new Point(start.x + 1, start.y + direction));
-        moves.add(new Point(start.x - 1, start.y + direction));
 
         return moves;
     } // end pawnMoves(Point, boolean)
