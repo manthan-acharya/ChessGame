@@ -79,7 +79,7 @@ public class ChessGame
         // Check if the piece is the correct color
         if(board.isPieceWhite(startPoint) !=  isWhiteTurn)
         {
-            System.out.println("Wrong piece selected, please try again");
+            System.out.println("Wrong color selected, please try again");
             move = getValidMove(isWhiteTurn, board);
         }
 
@@ -87,6 +87,15 @@ public class ChessGame
         if(board.isPieceSameColor(startPoint, endPoint))
         {
             System.out.println("Destination location cannot be the same color as start location, please try again");
+            move = getValidMove(isWhiteTurn, board);
+        }
+
+        // Check if the move follows the piece's possible moves
+        if(!board.isValidMove(startPoint, endPoint))
+        {
+            // Gets the piece, then the type, then just the name of the piece, then makes it lowercase
+            String pieceName = board.getPiece(startPoint).getType().toString().split("_")[0].toLowerCase();
+            System.out.printf("Invalid move for %s, please try again", pieceName);
             move = getValidMove(isWhiteTurn, board);
         }
         return move;
@@ -131,14 +140,18 @@ public class ChessGame
         // Capitalize the notation, this is to prevent errors while checking against the valid columns
         notation = notation.toUpperCase();
 
-        // Get the column for each point (start at 0)
+        // Get the column for each point (starts at 0)
         String validColumns = "ABCDEFGH";
         start.x = validColumns.indexOf(notation.charAt(0));
         end.x = validColumns.indexOf(notation.charAt(2));
 
-        // Get the row for each point (start at 0)
+        // Get the row for each point (starts at 0)
         start.y = Character.getNumericValue(notation.charAt(1) - 1);
         end.y = Character.getNumericValue(notation.charAt(3) - 1);
+
+        // Invert the y values, this is because the board is drawn from top to bottom, but the notation is from bottom to top
+        start.y = 7 - start.y;
+        end.y = 7 - end.y;
 
         return new Point[]{start, end};
     }
