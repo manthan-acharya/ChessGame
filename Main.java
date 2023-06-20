@@ -91,7 +91,7 @@ public class Main
             ChessBoard board = boards.get(i);
 
             // original piece starting point to get possible moves
-            Point startingPoint = new Point(7, 3);
+            Point startingPoint = new Point(5, 4);
 
             // invert point cuz board indexes as array (top left down), instead of chess (bottom left up)
             startingPoint.y = 7 - startingPoint.y;
